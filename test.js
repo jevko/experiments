@@ -2,6 +2,7 @@ import {decode} from './decode.js'
 import {encode} from './encode.js'
 import {astToJs} from './astToJs.js'
 import {astToString} from './astToString.js'
+import {astToHtml} from './astToHtml.js'
 
 const input = `
 editor.quickSuggestions [
@@ -164,6 +165,30 @@ console.assert(JSON.stringify(decoded) === JSON.stringify(expectedDecoded), deco
 console.assert(JSON.stringify(converted) === JSON.stringify(expectedConverted), converted)
 console.assert(encoded === expectedEncoded, encoded)
 console.assert(input === stringified, stringified)
+
+console.assert(astToHtml(decode(`
+[html][
+  [head][
+    [meta /]
+  ]
+  [body][
+    [p title[explanation] disabled][
+      [b][click] on this [a href[#]][link][br/]
+    ]
+  ]
+]
+`)) === `
+<html>
+  <head>
+    <meta />
+  </head>
+  <body>
+    <p title="explanation" disabled>
+      <b>click</b> on this <a href="#">link</a><br/>
+    </p>
+  </body>
+</html>
+`)
 
 // console.log(decoded)
 // console.log(converted)

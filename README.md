@@ -58,3 +58,35 @@ Which brings us to `astToString` -- it performs the inverse operation, i.e. conv
 `astToJs` converts a syntax tree returned by `decode` to a JavaScript value.
 
 Finally `encode` translates a JavaScript value into a Jevko string.
+
+## AST to HTML
+
+`astToHtml` converts a parse tree returned by `decode` into HTML/XML, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
+
+```
+[html][
+  [head][
+    [meta /]
+  ]
+  [body][
+    [p title[explanation] disabled][
+      [b][click] on this [a href[#]][link][br/]
+    ]
+  ]
+]
+```
+
+can be translated to the following XML string:
+
+```html
+<html>
+  <head>
+    <meta />
+  </head>
+  <body>
+    <p title="explanation" disabled>
+      <b>click</b> on this <a href="#">link</a><br/>
+    </p>
+  </body>
+</html>
+```
