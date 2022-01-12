@@ -1,4 +1,4 @@
-export const encode = (value) => {
+export const stringify = (value) => {
   if (typeof value === 'boolean') return value.toString()
   if (value === null) return 'null'
   if (value === undefined) return 'undefined'
@@ -16,14 +16,14 @@ export const encode = (value) => {
 const encodeArray = (arr) => {
   let ret = ''
   for (const item of arr) {
-    ret += '[' + encode(item) + ']'
+    ret += '[' + stringify(item) + ']'
   }
   return ret
 }
 const encodeObject = (obj) => {
   let ret = ''
   for (const [key, value] of Object.entries(obj)) {
-    ret += escape(key) + '[' + encode(value) + ']'
+    ret += escape(key) + '[' + stringify(value) + ']'
   }
   return ret
 }

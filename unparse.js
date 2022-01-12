@@ -1,10 +1,10 @@
-export const astToString = (ast) => {
+export const unparse = (ast) => {
   const {subvalues, suffix} = ast
   if (Array.isArray(subvalues) === false) throw Error('expected subvalues array')
   if (typeof suffix !== 'string') throw Error('expected string suffix')
   let ret = ''
   for (let {prefix, value} of subvalues) {
-    ret += escape(prefix) + '[' + astToString(value) + ']'
+    ret += escape(prefix) + '[' + unparse(value) + ']'
   }
   return ret + escape(suffix)
 }

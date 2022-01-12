@@ -1,8 +1,9 @@
-import {decode} from './decode.js'
-import {encode} from './encode.js'
+import {parse} from './parse.js'
+import {stringify} from './stringify.js'
 import {astToJs} from './astToJs.js'
-import {astToString} from './astToString.js'
+import {unparse} from './unparse.js'
 import {astToHtml} from './astToHtml.js'
+import {astLikeJson} from './astLikeJson.js'
 
 const input = `
 editor.quickSuggestions [
@@ -153,20 +154,20 @@ const expectedConverted = {
 
 const expectedEncoded = `editor.quickSuggestions[other[true]comments[false]strings[false]]terminal.integrated.wordSeparators[ ()\`[\`]{}',"\`\`─‘’]terminal.integrated.scrollback[1000]remote.extensionKind[pub.name[[ui]]]git.checkoutType[[local][remote][tags]]git.defaultCloneDirectory[null]`
 
-const decoded = decode(input)
+const decoded = parse(input)
 
 const converted = astToJs(decoded)
 
-const encoded = encode(converted)
+const encoded = stringify(converted)
 
-const stringified = astToString(decoded)
+const stringified = unparse(decoded)
 
 console.assert(JSON.stringify(decoded) === JSON.stringify(expectedDecoded), decoded)
 console.assert(JSON.stringify(converted) === JSON.stringify(expectedConverted), converted)
 console.assert(encoded === expectedEncoded, encoded)
 console.assert(input === stringified, stringified)
 
-console.assert(astToHtml(decode(`
+console.assert(astToHtml(parse(`
 [html][
   [head][
     [meta /]
@@ -190,6 +191,33 @@ console.assert(astToHtml(decode(`
 </html>
 `)
 
-// console.log(decoded)
-// console.log(converted)
-// console.log(encoded)
+console.assert(JSON.stringify(astLikeJson(parse(`
+{
+  Controls whether suggestions should automatically show up while typing.
+  (editor.quickSuggestions)({
+    (other)(true)
+    (comments)(false)
+    (strings)(false)
+  })
+
+  A string containing all characters to be considered word separators by the double click to select word feature.
+  (terminal.integrated.wordSeparators)(" \\(\\)[]{}',"\`─‘’)
+
+  Controls the maximum amount of lines the terminal keeps in its buffer.
+  (terminal.integrated.scrollback)(1000)
+
+  Override the kind of an extension. \`ui\` extensions are installed and run on the local machine while \`workspace\` extensions are run on the remote. By overriding an extension's default kind using this setting, you specify if that extension should be installed and enabled locally or remotely.
+  (remote.extensionKind)({
+    (pub.name)([("ui)])
+  })
+
+  Controls what type of git refs are listed when running \`Checkout to...\`.
+   - local: Local branches
+   - tags: Tags
+   - remote: Remote branches
+  (git.checkoutType)([("local)("remote)("tags)])
+
+  The default location to clone a git repository.
+  (git.defaultCloneDirectory)(null)
+}
+`, {open: '(', close: ')', escape: '\\'}))) === JSON.stringify(expectedConverted))

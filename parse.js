@@ -1,4 +1,4 @@
-export const decode = (str, {
+export const parse = (str, {
   open = '[',
   close = ']',
   escape = '`'

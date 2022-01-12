@@ -1,6 +1,8 @@
 # smalltree
 
-`decode` is a parser for the following ABNF grammar:
+## parse
+
+`parse` is a parser for the following ABNF grammar:
 
 ```fs
 Value = Subvalues Suffix
@@ -49,19 +51,25 @@ is the syntax tree of the string:
 key [value]
 ```
 
-**Trees produced by decode are lossless**, i.e. they contain enough information to recreate the input *exactly*.
+**Trees produced by parse are lossless**, i.e. they contain enough information to recreate the input *exactly*.
 
 <!-- The top level of the tree includes characters for `open`, `close`, and `escape` -->
 
-Which brings us to `astToString` -- it performs the inverse operation, i.e. converts a syntax tree returned by `decode` back to a string. Because the tree allows recreating the input exactly, the composition of `decode` and `astToString` is equivalent to identity. In other words this composition is indempotent for conforming inputs.
+## unparse
 
-`astToJs` converts a syntax tree returned by `decode` to a JavaScript value.
+Which brings us to `unparse` -- it performs the inverse operation, i.e. converts a syntax tree returned by `parse` back to a string. Because the tree allows recreating the input exactly, the composition of `parse` and `unparse` is equivalent to identity. In other words this composition is indempotent for conforming inputs.
 
-Finally `encode` translates a JavaScript value into a Jevko string.
+## stringify
+
+`stringify` translates a JavaScript value into a Jevko string.
+
+## astToJs
+
+`astToJs` converts a syntax tree returned by `parse` to a JavaScript value.
 
 ## AST to HTML
 
-`astToHtml` converts a parse tree returned by `decode` into HTML/XML, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
+`astToHtml` converts a parse tree returned by `parse` into HTML/XML, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
 
 ```
 [html][
