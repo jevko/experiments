@@ -1,5 +1,7 @@
 # smalltree
 
+A collection of functions/chunks of code showcasing some of the things that can be done with [Jevko](https://jevko.org).
+
 ## parse
 
 `parse` is a parser for the following ABNF grammar:
@@ -67,9 +69,9 @@ Which brings us to `unparse` -- it performs the inverse operation, i.e. converts
 
 `astToJs` converts a syntax tree returned by `parse` to a JavaScript value.
 
-## AST to HTML
+## astToHtml
 
-`astToHtml` converts a parse tree returned by `parse` into HTML/XML, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
+`astToHtml` converts a parse tree returned by `parse` into HTML/XML string, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
 
 ```
 [html][
@@ -98,3 +100,55 @@ can be translated to the following XML string:
   </body>
 </html>
 ```
+
+## astLikeJson
+
+`astLikeJson` converts a JSON-compatible Jevko-based format to JSON (more precisely a JavaScript value which can be converted to JSON without loss of information, except whitespace).
+
+For example the following string:
+
+```
+{
+  Controls whether suggestions should automatically show up while typing.
+  (editor.quickSuggestions)({
+    (other)(true)
+    (comments)(false)
+    (strings)(false)
+  })
+
+  A string containing all characters to be considered word separators by the double click to select word feature.
+  (terminal.integrated.wordSeparators)(" \\(\\)[]{}',"\`─‘’)
+
+  Controls the maximum amount of lines the terminal keeps in its buffer.
+  (terminal.integrated.scrollback)(1000)
+
+  Override the kind of an extension. \`ui\` extensions are installed and run on the local machine while \`workspace\` extensions are run on the remote. By overriding an extension's default kind using this setting, you specify if that extension should be installed and enabled locally or remotely.
+  (remote.extensionKind)({
+    (pub.name)([("ui)])
+  })
+
+  Controls what type of git refs are listed when running \`Checkout to...\`.
+   - local: Local branches
+   - tags: Tags
+   - remote: Remote branches
+  (git.checkoutType)([("local)("remote)("tags)])
+
+  The default location to clone a git repository.
+  (git.defaultCloneDirectory)(null)
+}
+```
+
+is converted to the following JSON:
+
+```
+{
+  "editor.quickSuggestions": { other: true, comments: false, strings: false },
+  "terminal.integrated.wordSeparators": " ()[]{}',\"`─‘’",
+  "terminal.integrated.scrollback": 1000,
+  "remote.extensionKind": { "pub.name": [ "ui" ] },
+  "git.checkoutType": [ "local", "remote", "tags" ],
+  "git.defaultCloneDirectory": null
+}
+```
+
+Note: this format uses round brackets and the backslash `()\` instead of square brackets and the grave accent `` []` ``, as in cannonical Jevko.
