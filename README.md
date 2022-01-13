@@ -69,6 +69,70 @@ Which brings us to `unparse` -- it performs the inverse operation, i.e. converts
 
 `astToJs` converts a syntax tree returned by `parse` to a JavaScript value.
 
+## astToConfig
+
+`astToConfig` is similar to `astToJs`, except it supports disabling keys in objects and minimalist comments. Keys are restricted to one-line strings.
+
+This is a good start for a minimalist configuration format. For example the following string:
+
+```
+-editor.quickSuggestions
+  Controls whether suggestions should automatically show up while typing.
+[
+  other [true]
+  comments [false]
+  strings [false]
+]
+
+-terminal.integrated.wordSeparators
+  A string containing all characters to be considered word separators by the double click to select word feature.
+[ ()\`[\`]{}',"\`\`─‘’]
+
+terminal.integrated.scrollback 
+  Controls the maximum amount of lines the terminal keeps in its buffer.
+[1000]
+
+remote.extensionKind 
+  Override the kind of an extension. 'ui' extensions are installed and run on the local machine while 'workspace' extensions are run on the remote. By overriding an extension's default kind using this setting, you specify if that extension should be installed and enabled locally or remotely.
+[
+  pub.name [[ui]]
+]
+
+git.checkoutType 
+  Controls what type of git refs are listed when running 'Checkout to...'.
+    - local: Local branches
+    - tags: Tags
+    - remote: Remote branches
+[[local] [remote] [tags]]
+
+git.defaultCloneDirectory 
+  The default location to clone a git repository.
+[null]
+```
+
+is converted to:
+
+```json
+{
+  "terminal.integrated.scrollback": 1000,
+  "remote.extensionKind": {
+    "pub.name": [
+      "ui"
+    ]
+  },
+  "git.checkoutType": [
+    "local",
+    "remote",
+    "tags"
+  ],
+  "git.defaultCloneDirectory": null
+}
+```
+
+Note that the values under keys `editor.quickSuggestions` and `terminal.integrated.wordSeparators` don't appear in the output, because these keys were disabled (effectively commented out) by preceding them with `-`. 
+
+If a subvalue's prefix is mutliline, only the first line is interpreted as key. The remaining lines are ignored, serving as the minimalist comments.
+
 ## astToHtml
 
 `astToHtml` converts a parse tree returned by `parse` into HTML/XML string, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
@@ -152,3 +216,4 @@ is converted to the following JSON:
 ```
 
 Note: this format uses round brackets and the backslash `()\` instead of square brackets and the grave accent `` []` ``, as in cannonical Jevko.
+

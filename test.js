@@ -4,6 +4,7 @@ import {astToJs} from './astToJs.js'
 import {unparse} from './unparse.js'
 import {astToHtml} from './astToHtml.js'
 import {astLikeJson} from './astLikeJson.js'
+import {astToConfig} from './astToConfig.js'
 
 const input = `
 editor.quickSuggestions [
@@ -221,3 +222,38 @@ console.assert(JSON.stringify(astLikeJson(parse(`
   (git.defaultCloneDirectory)(null)
 }
 `, {open: '(', close: ')', escape: '\\'}))) === JSON.stringify(expectedConverted))
+
+console.assert(JSON.stringify(astToConfig(parse(`
+-editor.quickSuggestions
+  Controls whether suggestions should automatically show up while typing.
+[
+  other [true]
+  comments [false]
+  strings [false]
+]
+
+-terminal.integrated.wordSeparators
+  A string containing all characters to be considered word separators by the double click to select word feature.
+[ ()\`[\`]{}',"\`\`─‘’]
+
+terminal.integrated.scrollback 
+  Controls the maximum amount of lines the terminal keeps in its buffer.
+[1000]
+
+remote.extensionKind 
+  Override the kind of an extension. 'ui' extensions are installed and run on the local machine while 'workspace' extensions are run on the remote. By overriding an extension's default kind using this setting, you specify if that extension should be installed and enabled locally or remotely.
+[
+  pub.name [[ui]]
+]
+
+git.checkoutType 
+  Controls what type of git refs are listed when running 'Checkout to...'.
+    - local: Local branches
+    - tags: Tags
+    - remote: Remote branches
+[[local] [remote] [tags]]
+
+git.defaultCloneDirectory 
+  The default location to clone a git repository.
+[null]
+`))) === `{"terminal.integrated.scrollback":1000,"remote.extensionKind":{"pub.name":["ui"]},"git.checkoutType":["local","remote","tags"],"git.defaultCloneDirectory":null}`)
