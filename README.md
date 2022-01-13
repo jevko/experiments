@@ -131,7 +131,7 @@ is converted to:
 
 Note that the values under keys `editor.quickSuggestions` and `terminal.integrated.wordSeparators` don't appear in the output, because these keys were disabled (effectively commented out) by preceding them with `-`. 
 
-If a subvalue's prefix is mutliline, only the first line is interpreted as key. The remaining lines are ignored, serving as the minimalist comments.
+If a subvalue's prefix is mutliline, only the first line is interpreted as key. The remaining lines are ignored, serving as comments.
 
 ## astToHtml
 
