@@ -5,6 +5,8 @@ import {unparse} from './unparse.js'
 import {astToHtml} from './astToHtml.js'
 import {astLikeJson} from './astLikeJson.js'
 import {astToConfig} from './astToConfig.js'
+import { astToXml } from './astToXml.js'
+import { astToXml2 } from './astToXml2.js'
 
 const input = `
 editor.quickSuggestions [
@@ -257,3 +259,65 @@ git.defaultCloneDirectory
   The default location to clone a git repository.
 [null]
 `))) === `{"terminal.integrated.scrollback":1000,"remote.extensionKind":{"pub.name":["ui"]},"git.checkoutType":["local","remote","tags"],"git.defaultCloneDirectory":null}`)
+
+console.assert(astToXml(parse(`
+<html><
+  <head><
+    <meta />
+  >
+  <body><
+    <p title<explanation> disabled><
+      <b><click> on this <a href<#>><link><br/>
+    >
+  >
+>
+`, {open: '<', close: '>', escape: '&'})) === `
+<html>
+  <head>
+    <meta />
+  </head>
+  <body>
+    <p title="explanation" disabled>
+      <b>click</b> on this <a href="#">link</a><br/>
+    </p>
+  </body>
+</html>
+`)
+
+console.assert(astToXml2(parse(`
+<html/
+  <head/
+    <meta >
+  >
+  <body/
+    <p title<explanation> disabled/
+      <b/click> on this <a href<#>/link><br>
+    >
+  >
+>
+`, {open: '<', close: '>', escape: '&'})) === `
+<html>
+  <head>
+    <meta />
+  </head>
+  <body>
+    <p title="explanation" disabled>
+      <b>click</b> on this <a href="#">link</a><br/>
+    </p>
+  </body>
+</html>
+`)
+
+
+console.log(astToXml2(parse(`
+<html/
+  <head/
+    <meta>
+  >
+  <body/
+    <p title<explanation> disabled/
+      <b/click> on this <a href<#>/link><br>
+    >
+  >
+>
+`, {open: '<', close: '>', escape: '&'})))
