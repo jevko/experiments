@@ -285,20 +285,20 @@ console.assert(astToXml(parse(`
 `)
 
 console.assert(astToXml2(parse(`
-<html/
-  <head/
-    <meta >
-  >
-  <body/
-    <p title<explanation> disabled/
-      <b/click> on this <a href<#>/link><br>
-    >
-  >
->
-`, {open: '<', close: '>', escape: '&'})) === `
+[html/
+  [head/
+    [meta]
+  ]
+  [body/
+    [p title[explanation] disabled/
+      [b/click] on this [a href[#]/link][br]
+    ]
+  ]
+]
+`)) === `
 <html>
   <head>
-    <meta />
+    <meta/>
   </head>
   <body>
     <p title="explanation" disabled>
@@ -307,17 +307,3 @@ console.assert(astToXml2(parse(`
   </body>
 </html>
 `)
-
-
-console.log(astToXml2(parse(`
-<html/
-  <head/
-    <meta>
-  >
-  <body/
-    <p title<explanation> disabled/
-      <b/click> on this <a href<#>/link><br>
-    >
-  >
->
-`, {open: '<', close: '>', escape: '&'})))

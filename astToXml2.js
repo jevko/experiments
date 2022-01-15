@@ -15,68 +15,33 @@ const getContent = (subvalues, startIndex) => {
 const astToElem = (ast) => {
   const {subvalues, suffix} = ast
 
-  let tag = ''
-  let attrs = ''
-  let content = ''
-  let hasContent = false
+  let precontent = ''
+  let content = undefined
 
-  if (subvalues.length === 0) {
-    const {pretext, text} = getText(suffix)
-    const {tag: t, posttag} = getTag(pretext)
-
-    tag = t
-    attrs = posttag
-
-    if (text !== undefined) {
-      content = text
-      hasContent = true
-    }
-  } else {
-    const {prefix, value} = subvalues[0]
-    
+  for (let i = 0; i < subvalues.length; ++i) {
+    const {prefix, value} = subvalues[i]
     const {pretext, text} = getText(prefix)
-    const {tag: t, posttag} = getTag(pretext)
 
-    tag = t
-    attrs = posttag
+    precontent += pretext
 
-    if (text !== undefined) {
-      content = text + astToElem(value) + getContent(subvalues, 1)
-      hasContent = true
+    if (text === undefined) {
+      precontent += `="${astToAttrValue(value)}"`
     } else {
-      attrs += `="${astToAttrValue(value)}"`
-      for (let i = 1; i < subvalues.length; ++i) {
-        const {prefix, value} = subvalues[i]
-
-        const {pretext, text} = getText(prefix)
-
-        attrs += pretext
-
-        if (text !== undefined) {
-          content = text + astToElem(value) + getContent(subvalues, i + 1)
-          hasContent = true
-          break
-        } else {
-          attrs += `="${astToAttrValue(value)}"`
-        }
-      }
-    }
-
-    if (hasContent) {
-      content += suffix
-    } else {
-      const {pretext: attr, text} = getText(suffix)
-      attrs += attr
-      
-      if (text !== undefined) {
-        content += text
-        hasContent = true
-      }
+      content = text + astToElem(value) + getContent(subvalues, i + 1) + suffix
+      break
     }
   }
 
-  if (hasContent) return `<${tag}${attrs}>${content}</${tag}>`
-  return `<${tag}${attrs}/>`
+  if (content === undefined) {
+    const {pretext, text} = getText(suffix)
+    precontent += pretext
+
+    if (text === undefined) return `<${precontent}/>`
+    else content = text
+  }
+
+  const {tag, posttag} = getTag(precontent)
+  return `<${tag}${posttag}>${content}</${tag}>`
 }
 
 const getText = (str) => {
@@ -88,7 +53,7 @@ const getText = (str) => {
 
 const getTag = (str) => {
   if (str.length === 0) throw Error('tag cannot be empty')
-  const c = str.charAt(0)
+  const c = str[0]
   if (isWhitespace(c)) throw Error('tag must start nonblank')
 
   let index = -1
@@ -99,7 +64,6 @@ const getTag = (str) => {
       break
     }
   }
-  // const index = str.findIndex(isWhitespace)
 
   if (index === -1) return {tag: str, posttag: ''}
 
