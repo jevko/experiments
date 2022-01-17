@@ -221,15 +221,15 @@ Note: this format uses round brackets and the backslash `()\` instead of square 
 
 `parseHeredoc` is like `parse`, except that it supports additional syntax for [here documents](https://en.wikipedia.org/wiki/Here_document). The syntax is as follows:
 
-```
-key1 [value]
-key2 [`~end
-multiline
+<pre>
+key1 [<i>value</i>]
+key2 [<b>`~END</b>
+<i>multiline
 value with unescaped ][`
-]]][[[[][]]]]````
-end
+]]][[[[][]]]]````</i>
+<b>END</b>
 ]
-```
+</pre>
 
 This produces the following parse tree:
 
