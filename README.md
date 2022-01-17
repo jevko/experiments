@@ -217,3 +217,69 @@ is converted to the following JSON:
 
 Note: this format uses round brackets and the backslash `()\` instead of square brackets and the grave accent `` []` ``, as in cannonical Jevko.
 
+## parseHeredoc
+
+`parseHeredoc` is like `parse`, except that it supports additional syntax for [here documents](https://en.wikipedia.org/wiki/Here_document). The syntax is as follows:
+
+```
+key1 [value]
+key2 [`~end
+multiline
+value with unescaped ][`
+]]][[[[][]]]]````
+end
+]
+```
+
+This produces the following parse tree:
+
+```json
+{
+  "subvalues": [
+    {
+      "prefix": [
+        {
+          "chars": "\nkey1 "
+        }
+      ],
+      "value": {
+        "subvalues": [],
+        "suffix": [
+          {
+            "chars": "value"
+          }
+        ]
+      }
+    },
+    {
+      "prefix": [
+        {
+          "chars": "\nkey2 "
+        }
+      ],
+      "value": {
+        "subvalues": [],
+        "suffix": [
+          {
+            "lines": [
+              "multiline",
+              "value with unescaped ][`",
+              "]]][[[[][]]]]````"
+            ],
+            "delimiter": "end"
+          }
+        ]
+      }
+    }
+  ],
+  "suffix": [
+    {
+      "chars": "\n"
+    }
+  ],
+  "open": "[",
+  "close": "]",
+  "escape": "`",
+  "heredoc": "~"
+}
+```
