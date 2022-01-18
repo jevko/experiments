@@ -173,7 +173,7 @@ phyloxml[[xmlns:xsi[http://www.w3.org/2001/XMLSchema-instance] xmlns[http://www.
 
 ## astToXml7
 
-Like astToXml6, except attributes come immediately after the tag, separated by a space. This is the most compact encoding for data interchange.
+Like astToXml6, except attributes come immediately after the tag, separated by a space. Out of all of the above this encoding is the most compact for data interchange.
 
 ```
 svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/2000/svg] xmlns:xlink[http://www.w3.org/1999/xlink][
@@ -185,4 +185,26 @@ svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/
     line x1[50] y1[50] x2[200] y2[200] stroke[blue] stroke-width[4][]
   ]
 ]
+```
+
+## astToXml8
+
+Like astToXml7, except that a tag without content may omit empty brackets if it is followed by a tag with attributes.
+
+```
+svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/2000/svg] xmlns:xlink[http://www.w3.org/1999/xlink][
+  rect fill[#fff] stroke[#000] x[-70] y[-70] width[390] height[390]
+  g opacity[0.8][
+    rect x[25] y[25] width[200] height[200] fill[lime] stroke-width[4] stroke[pink]
+    circle cx[125] cy[125] r[75] fill[orange]
+    polyline points[50,150 50,200 200,200 200,100] stroke[red] stroke-width[4] fill[none]
+    line x1[50] y1[50] x2[200] y2[200] stroke[blue] stroke-width[4]
+  ]
+]
+```
+
+In this encoding shorthand attributes without values must be placed immediately after the tag, and if they any are specified, they must be followed by a non-shorthand attribute i.e.:
+
+```
+elem attr attr2 attr3[][content]
 ```
