@@ -5,8 +5,8 @@ import { astToXml3 } from './astToXml3.js'
 import { astToXml4 } from './astToXml4.js'
 import { astToXml5 } from './astToXml5.js'
 import { astToXml6 } from './astToXml6.js'
-import { astToXml6a } from './astToXml6a.js'
 import { astToXml7 } from './astToXml7.js'
+import { astToXml8 } from './astToXml8.js'
 
 
 
@@ -216,8 +216,6 @@ phyloxml[[xmlns:xsi[http://www.w3.org/2001/XMLSchema-instance] xmlns[http://www.
 ]
 `)))
 
-
-
 console.log(astToXml7(parse(`
 svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/2000/svg] xmlns:xlink[http://www.w3.org/1999/xlink][
   rect fill[#fff] stroke[#000] x[-70] y[-70] width[390] height[390][]
@@ -226,6 +224,18 @@ svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/
     circle cx[125] cy[125] r[75] fill[orange][]
     polyline points[50,150 50,200 200,200 200,100] stroke[red] stroke-width[4] fill[none][]
     line x1[50] y1[50] x2[200] y2[200] stroke[blue] stroke-width[4][]
+  ]
+]
+`)))
+
+console.log(astToXml8(parse(`
+svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/2000/svg] xmlns:xlink[http://www.w3.org/1999/xlink][
+  rect fill[#fff] stroke[#000] x[-70] y[-70] width[390] height[390]
+  g opacity[0.8][
+    rect x[25] y[25] width[200] height[200] fill[lime] stroke-width[4] stroke[pink]
+    circle cx[125] cy[125] r[75] fill[orange]
+    polyline points[50,150 50,200 200,200 200,100] stroke[red] stroke-width[4] fill[none]
+    line x1[50] y1[50] x2[200] y2[200] stroke[blue] stroke-width[4]
   ]
 ]
 `)))

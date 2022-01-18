@@ -287,3 +287,43 @@ This produces the following parse tree:
 ## Various XML encodings
 
 See [xml.md](xml.md).
+
+## astToLengthPrefixed
+
+Converts a parse tree returned by `parse` to a length-prefixed version of Jevko.
+
+For example this:
+
+```
+editor.quickSuggestions [
+  other [true]
+  comments [false]
+  strings [false]
+]
+terminal.integrated.wordSeparators [ ()\`[\`]{}',"\`\`─‘’]
+terminal.integrated.scrollback [1000]
+remote.extensionKind [
+  pub.name [[ui]]
+]
+git.checkoutType [[local] [remote] [tags]]
+git.defaultCloneDirectory [null]
+```
+
+becomes this:
+
+```
+6:24:editor.quickSuggestions 3:9:
+  other 0:4:true12:
+  comments 0:5:false11:
+  strings 0:5:false1:
+36:
+terminal.integrated.wordSeparators 0:20: ()[]{}',"`─‘’32:
+terminal.integrated.scrollback 0:4:100022:
+remote.extensionKind 1:12:
+  pub.name 1:0:0:2:ui0:1:
+18:
+git.checkoutType 3:0:0:5:local1: 0:6:remote1: 0:4:tags0:27:
+git.defaultCloneDirectory 0:4:null0:
+```
+
+The length-prefixed form requires no escaping and is easy to convert to a binary form.

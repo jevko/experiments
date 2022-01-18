@@ -6,6 +6,7 @@ import {astToHtml} from './astToHtml.js'
 import {astLikeJson} from './astLikeJson.js'
 import {astToConfig} from './astToConfig.js'
 import { parseHeredoc } from './parseHeredoc.js'
+import {astToLengthPrefixed} from './astToLengthPrefixed.js'
 
 const input = `
 editor.quickSuggestions [
@@ -268,3 +269,16 @@ value with unescaped ][\`
 end
 ]
 `), null, 2))
+
+console.log(astToLengthPrefixed(parse(`editor.quickSuggestions [
+  other [true]
+  comments [false]
+  strings [false]
+]
+terminal.integrated.wordSeparators [ ()\`[\`]{}',"\`\`─‘’]
+terminal.integrated.scrollback [1000]
+remote.extensionKind [
+  pub.name [[ui]]
+]
+git.checkoutType [[local] [remote] [tags]]
+git.defaultCloneDirectory [null]`)))
