@@ -283,3 +283,7 @@ This produces the following parse tree:
   "heredoc": "~"
 }
 ```
+
+## Various XML encodings
+
+See [xml.md](xml.md).
