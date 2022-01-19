@@ -368,4 +368,25 @@ git.checkoutType [5]local1[ 6]remote1[ 4]tags]27[
 git.defaultCloneDirectory 4]null]
 ```
 
-This format moves the brackets `[]` next to the length-prefixes, dropping colons `:` and saving space. This is the simplest and most efficient length-prefixed Jevko format.
+This format moves the brackets `[]` next to the length-prefixes, dropping colons `:` and saving space.
+
+## astToLengthPrefixed4
+
+Like `astToLengthPrefixed3`, except the result is:
+
+```
+o[editor.quickSuggestions 9[
+  other 4]truec[
+  comments 5]falseb[
+  strings 5]false1]
+10[
+terminal.integrated.wordSeparators k] ()[]{}',"\`─‘’w[
+terminal.integrated.scrollback 4]1000m[
+remote.extensionKind c[
+  pub.name [2]ui]1]
+i[
+git.checkoutType [5]local1[ 6]remote1[ 4]tags]r[
+git.defaultCloneDirectory 4]null]
+```
+
+In this format the lengths are encoded as [base36](https://en.wikipedia.org/wiki/Base36) numbers, making the format a tiny bit more space-efficient.
