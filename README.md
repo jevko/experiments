@@ -327,3 +327,45 @@ git.defaultCloneDirectory 0:4:null0:
 ```
 
 The length-prefixed form requires no escaping and is easy to convert to a binary form.
+
+## astToLengthPrefixed2
+
+Like `astToLengthPrefixed`, except the result is:
+
+```
+24:editor.quickSuggestions [9:
+  other [4:true]12:
+  comments [5:false]11:
+  strings [5:false]1:
+]36:
+terminal.integrated.wordSeparators [20: ()[]{}',"\`─‘’]32:
+terminal.integrated.scrollback [4:1000]22:
+remote.extensionKind [12:
+  pub.name [0:[2:ui]0:]1:
+]18:
+git.checkoutType [0:[5:local]1: [6:remote]1: [4:tags]0:]27:
+git.defaultCloneDirectory [4:null]0:
+```
+
+The difference is that this format preserves the brackets `[]` instead of dropping them in favor of prefixing nodes with the count of their children. This is more space-efficient and easier to parse.
+
+## astToLengthPrefixed3
+
+Like `astToLengthPrefixed2`, except the result is:
+
+```
+24[editor.quickSuggestions 9[
+  other 4]true12[
+  comments 5]false11[
+  strings 5]false1]
+36[
+terminal.integrated.wordSeparators 20] ()[]{}',"\`─‘’32[
+terminal.integrated.scrollback 4]100022[
+remote.extensionKind 12[
+  pub.name [2]ui]1]
+18[
+git.checkoutType [5]local1[ 6]remote1[ 4]tags]27[
+git.defaultCloneDirectory 4]null]
+```
+
+This format moves the brackets `[]` next to the length-prefixes, dropping colons `:` and saving space. This is the simplest and most efficient length-prefixed Jevko format.
