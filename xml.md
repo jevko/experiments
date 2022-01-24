@@ -208,3 +208,33 @@ In this encoding shorthand attributes without values must be placed immediately 
 ```
 elem attr attr2 attr3[][content]
 ```
+
+## astToHtmlTable
+
+Converts a little DSL for HTML tables into HTML.
+
+For example this:
+
+```
+#[[decimal][hexadecimal][decimal-encoded hexadecimal]]
+ [[1]      [1]          [1]                          ]
+ [[12]     [c]          [u[03]]                      ]
+ [[57]     [20]         [[2]u[00]]                   ]
+ [[128]    [80]         [[8]u[00]]                   ]
+ [[1000]   [3e8]        [[3]u[05]8]                  ]
+ [[5598]   [15de]       [[15]u[04]u[05]]             ]
+```
+
+turns into something like this:
+
+```
+<table>
+  <tr><th>decimal</th><th>hexadecimal</th><th>decimal-encoded hexadecimal</th></tr>
+  <tr><td>1</td>      <td>1</td>          <td>1</td>                          </tr>
+  <tr><td>12</td>     <td>c</td>          <td><u>03</u></td>                  </tr>
+  <tr><td>57</td>     <td>20</td>         <td>2<u>00</u></td>                 </tr>
+  <tr><td>128</td>    <td>80</td>         <td>8<u>00</u></td>                 </tr>
+  <tr><td>1000</td>   <td>3e8</td>        <td>3<u>05</u>8</td>                </tr>
+  <tr><td>5598</td>   <td>15de</td>       <td>15<u>04</u><u>05</u></td>       </tr>
+</table>
+```

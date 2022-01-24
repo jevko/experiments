@@ -7,6 +7,7 @@ import { astToXml5 } from './astToXml5.js'
 import { astToXml6 } from './astToXml6.js'
 import { astToXml7 } from './astToXml7.js'
 import { astToXml8 } from './astToXml8.js'
+import { astToHtmlTable } from './astToHtmlTable.js'
 
 
 
@@ -238,4 +239,84 @@ svg width[391] height[391] viewBox[-70.5 -70.5 391 391] xmlns[http://www.w3.org/
     line x1[50] y1[50] x2[200] y2[200] stroke[blue] stroke-width[4]
   ]
 ]
+`)))
+
+console.log(astToXml3(parse(`
+table [
+  thead [
+    tr [th[decimal]]
+  ]
+  tbody [
+    tr [td[1]]
+    tr [td[12]]
+    tr [td[57]]
+    tr [td[128]]
+    tr [td[1000]]
+    tr [td[5598]]
+  ]
+]
+
+table [
+  thead [
+    tr [th[decimal]th[hexadecimal]]
+  ]
+  tbody [
+    tr [td[1]td[1]]
+    tr [td[12]td[c]]
+    tr [td[57]td[20]]
+    tr [td[128]td[80]]
+    tr [td[1000]td[3e8]]
+    tr [td[5598]td[15de]]
+  ]
+]
+
+table [
+  thead [
+    tr [th[decimal]th[hexadecimal]th[decimal-encoded hexadecimal]]
+  ]
+  tbody [
+    tr [td[1]td[1]td[1]]
+    tr [td[12]td[c]td[u[03]]]
+    tr [td[57]td[20]td[[2]u[00]]]
+    tr [td[128]td[80]td[[8]u[00]]]
+    tr [td[1000]td[3e8]td[[3]u[05]8]]
+    tr [td[5598]td[15de]td[[15]u[04]u[05]]]
+  ]
+]
+
+table [
+  thead [
+    tr [th[hexadecimal digit]th[decimal-encoded hexadecimal digit]]
+  ]
+  tbody [
+    tr [td[0]td[u[00]]]
+    tr [td[a]td[u[01]]]
+    tr [td[b]td[u[02]]]
+    tr [td[c]td[u[03]]]
+    tr [td[d]td[u[04]]]
+    tr [td[e]td[u[05]]]
+    tr [td[f]td[u[06]]]
+  ]
+]
+`)))
+
+console.log(astToHtmlTable(parse(`
+#[[hexadecimal digit][decimal-encoded hexadecimal digit]]
+[[0][u[00]]]
+[[a][u[01]]]
+[[b][u[02]]]
+[[c][u[03]]]
+[[d][u[04]]]
+[[e][u[05]]]
+[[f][u[06]]]
+`)))
+
+console.log(astToHtmlTable(parse(`
+#[[decimal][hexadecimal][decimal-encoded hexadecimal]]
+ [[1][1][1]]
+ [[12][c][u[03]]]
+ [[57][20][[2]u[00]]]
+ [[128][80][[8]u[00]]]
+ [[1000][3e8][[3]u[05]8]]
+ [[5598][15de][[15]u[04]u[05]]]
 `)))
