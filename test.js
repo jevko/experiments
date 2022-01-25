@@ -6,7 +6,7 @@ import {astToHtml} from './astToHtml.js'
 import {astLikeJson} from './astLikeJson.js'
 import {astToConfig} from './astToConfig.js'
 import { parseHeredoc } from './parseHeredoc.js'
-import {astToLengthPrefixed} from './astToLengthPrefixed.js'
+import { astToJs2 } from './astToJs2.js'
 
 const input = `
 editor.quickSuggestions [
@@ -270,15 +270,17 @@ end
 ]
 `), null, 2))
 
-console.log(astToLengthPrefixed(parse(`editor.quickSuggestions [
-  other [true]
-  comments [false]
-  strings [false]
+console.log(astToJs2(parse(`:
+editor.quickSuggestions [:
+  other [t]
+  comments [f]
+  strings [f]
 ]
-terminal.integrated.wordSeparators [ ()\`[\`]{}',"\`\`─‘’]
+terminal.integrated.wordSeparators [' ()\`[\`]{}',"\`\`─‘’]
 terminal.integrated.scrollback [1000]
-remote.extensionKind [
-  pub.name [[ui]]
+remote.extensionKind [:
+  pub.name [,['ui]]
 ]
-git.checkoutType [[local] [remote] [tags]]
-git.defaultCloneDirectory [null]`)))
+git.checkoutType [,['local] ['remote] ['tags]]
+git.defaultCloneDirectory [n]
+`)))
