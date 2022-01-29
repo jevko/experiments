@@ -1,6 +1,6 @@
-# smalltree
+# Jevko experiments
 
-A collection of functions/chunks of code showcasing some of the things that can be done with [Jevko](https://jevko.org).
+A collection of various experiments with [Jevko](https://jevko.org). Translating Jevko to different formats. Showing some of the things that can be done with Jevko.
 
 ## parse
 
