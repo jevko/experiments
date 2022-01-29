@@ -2,7 +2,6 @@ import {parse} from './parse.js'
 import {stringify} from './stringify.js'
 import {astToJs} from './astToJs.js'
 import {unparse} from './unparse.js'
-import {astToHtml} from './astToHtml.js'
 import {astLikeJson} from './astLikeJson.js'
 import {astToConfig} from './astToConfig.js'
 import { parseHeredoc } from './parseHeredoc.js'
@@ -169,30 +168,6 @@ console.assert(JSON.stringify(decoded) === JSON.stringify(expectedDecoded), deco
 console.assert(JSON.stringify(converted) === JSON.stringify(expectedConverted), converted)
 console.assert(encoded === expectedEncoded, encoded)
 console.assert(input === stringified, stringified)
-
-console.assert(astToHtml(parse(`
-[html][
-  [head][
-    [meta /]
-  ]
-  [body][
-    [p title[explanation] disabled][
-      [b][click] on this [a href[#]][link][br/]
-    ]
-  ]
-]
-`)) === `
-<html>
-  <head>
-    <meta />
-  </head>
-  <body>
-    <p title="explanation" disabled>
-      <b>click</b> on this <a href="#">link</a><br/>
-    </p>
-  </body>
-</html>
-`)
 
 console.assert(JSON.stringify(astLikeJson(parse(`
 {

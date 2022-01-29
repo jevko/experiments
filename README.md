@@ -133,38 +133,6 @@ Note that the values under keys `editor.quickSuggestions` and `terminal.integrat
 
 If a subvalue's prefix is mutliline, only the first line is interpreted as key. The remaining lines are ignored, serving as comments.
 
-## astToHtml
-
-`astToHtml` converts a parse tree returned by `parse` into HTML/XML string, effectively translating a compact Jevko-based encoding of XML to XML itself. For example the following Jevko string:
-
-```
-[html][
-  [head][
-    [meta /]
-  ]
-  [body][
-    [p title[explanation] disabled][
-      [b][click] on this [a href[#]][link][br/]
-    ]
-  ]
-]
-```
-
-can be translated to the following XML string:
-
-```html
-<html>
-  <head>
-    <meta />
-  </head>
-  <body>
-    <p title="explanation" disabled>
-      <b>click</b> on this <a href="#">link</a><br/>
-    </p>
-  </body>
-</html>
-```
-
 ## astLikeJson
 
 `astLikeJson` converts a JSON-compatible Jevko-based format to JSON (more precisely a JavaScript value which can be converted to JSON without loss of information, except whitespace).
@@ -283,10 +251,6 @@ This produces the following parse tree:
   "heredoc": "~"
 }
 ```
-
-## Various XML encodings
-
-See [xml.md](xml.md).
 
 ## Various binary encodings
 
