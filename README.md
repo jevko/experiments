@@ -252,10 +252,6 @@ This produces the following parse tree:
 }
 ```
 
-## Various binary encodings
-
-See [binary.md](binary.md)
-
 ## astToJs2
 
 Converts a Jevko `parse`d from something like this:
