@@ -185,6 +185,41 @@ is converted to the following JSON:
 
 Note: this format uses round brackets and the backslash `()\` instead of square brackets and the grave accent `` []` ``, as in cannonical Jevko.
 
+## astToJs2
+
+Converts a Jevko `parse`d from something like this:
+
+```
+:
+editor.quickSuggestions [:
+  other [t]
+  comments [f]
+  strings [f]
+]
+terminal.integrated.wordSeparators [' ()`[`]{}',"``─‘’]
+terminal.integrated.scrollback [1000]
+remote.extensionKind [:
+  pub.name [,['ui]]
+]
+git.checkoutType [,['local] ['remote] ['tags]]
+git.defaultCloneDirectory [n]
+```
+
+into a JS value like this:
+
+```js
+{
+  'editor.quickSuggestions': { other: true, comments: false, strings: false },
+  'terminal.integrated.wordSeparators': ' ()[]{}\',"`─‘’',
+  'terminal.integrated.scrollback': 1000,
+  'remote.extensionKind': { 'pub.name': [ 'ui' ] },
+  'git.checkoutType': [ 'local', 'remote', 'tags' ],
+  'git.defaultCloneDirectory': null
+}
+```
+
+In this encoding the first character after `[` determines the type of the value which optionally follows.
+
 ## parseHeredoc
 
 `parseHeredoc` is like `parse`, except that it supports additional syntax for [here documents](https://en.wikipedia.org/wiki/Here_document). The syntax is as follows:
@@ -251,38 +286,3 @@ This produces the following parse tree:
   "heredoc": "~"
 }
 ```
-
-## astToJs2
-
-Converts a Jevko `parse`d from something like this:
-
-```
-:
-editor.quickSuggestions [:
-  other [t]
-  comments [f]
-  strings [f]
-]
-terminal.integrated.wordSeparators [' ()`[`]{}',"``─‘’]
-terminal.integrated.scrollback [1000]
-remote.extensionKind [:
-  pub.name [,['ui]]
-]
-git.checkoutType [,['local] ['remote] ['tags]]
-git.defaultCloneDirectory [n]
-```
-
-into a JS value like this:
-
-```js
-{
-  'editor.quickSuggestions': { other: true, comments: false, strings: false },
-  'terminal.integrated.wordSeparators': ' ()[]{}\',"`─‘’',
-  'terminal.integrated.scrollback': 1000,
-  'remote.extensionKind': { 'pub.name': [ 'ui' ] },
-  'git.checkoutType': [ 'local', 'remote', 'tags' ],
-  'git.defaultCloneDirectory': null
-}
-```
-
-In this encoding the first character after `[` determines the type of the value which optionally follows.
