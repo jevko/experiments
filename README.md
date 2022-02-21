@@ -86,7 +86,7 @@ This is a good start for a minimalist configuration format. For example the foll
 
 -terminal.integrated.wordSeparators
   A string containing all characters to be considered word separators by the double click to select word feature.
-[ ()\`[\`]{}',"\`\`─‘’]
+[ ()`[`]{}',"``─‘’]
 
 terminal.integrated.scrollback 
   Controls the maximum amount of lines the terminal keeps in its buffer.
@@ -149,17 +149,17 @@ For example the following string:
   })
 
   A string containing all characters to be considered word separators by the double click to select word feature.
-  (terminal.integrated.wordSeparators)(" \\(\\)[]{}',"\`─‘’)
+  (terminal.integrated.wordSeparators)(" \(\)[]{}',"`─‘’)
 
   Controls the maximum amount of lines the terminal keeps in its buffer.
   (terminal.integrated.scrollback)(1000)
 
-  Override the kind of an extension. \`ui\` extensions are installed and run on the local machine while \`workspace\` extensions are run on the remote. By overriding an extension's default kind using this setting, you specify if that extension should be installed and enabled locally or remotely.
+  Override the kind of an extension. `ui` extensions are installed and run on the local machine while `workspace` extensions are run on the remote. By overriding an extension's default kind using this setting, you specify if that extension should be installed and enabled locally or remotely.
   (remote.extensionKind)({
     (pub.name)([("ui)])
   })
 
-  Controls what type of git refs are listed when running \`Checkout to...\`.
+  Controls what type of git refs are listed when running `Checkout to...`.
    - local: Local branches
    - tags: Tags
    - remote: Remote branches
@@ -263,7 +263,7 @@ editor.quickSuggestions [:
   comments [f]
   strings [f]
 ]
-terminal.integrated.wordSeparators [' ()\`[\`]{}',"\`\`─‘’]
+terminal.integrated.wordSeparators [' ()`[`]{}',"``─‘’]
 terminal.integrated.scrollback [1000]
 remote.extensionKind [:
   pub.name [,['ui]]
